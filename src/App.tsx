@@ -1,7 +1,7 @@
-import { FC } from 'react';
+import { Button } from 'src/components/ui/button';
 
-const App: FC = () => {
-  return <h1 className="text-red-500">Hello World</h1>;
-};
+function App() {
+  return <Button>123</Button>;
+}
 
 export default App;

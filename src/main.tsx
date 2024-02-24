@@ -1,4 +1,4 @@
-import 'src/styles/gloals.css';
+import 'src/styles/globals.css';
 
 import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
