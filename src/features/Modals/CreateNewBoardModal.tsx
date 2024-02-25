@@ -46,7 +46,7 @@ const CreateNewBoardModal: FC<ModalProps> = ({ modalTriggerElement }) => {
             </div>
             <Button className="mt-4">+ Add new column</Button>
           </div>
-          <Button>Create new Board</Button>
+          <Button>Create new board</Button>
         </DialogDescription>
       </DialogContent>
     </Dialog>

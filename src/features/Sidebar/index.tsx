@@ -25,7 +25,7 @@ const Sidebar: FC = () => {
   return (
     <div
       className={cn(
-        'w-[300px] h-full border-t-white border-solid border-r-[1px] p-[30px] pl-0 flex flex-col justify-between transition-[transform] duration-300',
+        'relative w-[300px] h-full border-t-white border-solid border-r-[1px] p-[30px] pl-0 flex flex-col justify-between transition-[transform] duration-300',
         isHidden && '-translate-x-full'
       )}
     >

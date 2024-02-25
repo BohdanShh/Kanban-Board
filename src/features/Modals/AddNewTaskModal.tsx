@@ -73,7 +73,7 @@ const AddNewTaskModal: FC<ModalProps> = ({ modalTriggerElement }) => {
             </label>
             <Select>
               <SelectTrigger>
-                <SelectValue placeholder="Select a status" />
+                <SelectValue placeholder="Select status" />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
