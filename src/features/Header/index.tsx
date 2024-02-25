@@ -11,8 +11,14 @@ import {
   DropdownMenuTrigger,
 } from 'src/components/ui/dropdown-menu';
 import { AddNewTaskModal } from 'src/features/Modals';
+import { getActiveBoard } from 'src/lib/getActiveBoard';
+import { useBoard } from 'src/store/useBoard';
 
 const Header: FC = () => {
+  const { boards, activeBoardId } = useBoard();
+
+  const activeBoard = getActiveBoard(boards, activeBoardId);
+
   return (
     <div className="flex border-solid border-y-[1px]">
       <div className="basis-[300px] flex items-center gap-2 p-[30px] border-t-white border-solid border-r-[1px]">
@@ -25,7 +31,9 @@ const Header: FC = () => {
         <h1 className="text-[#171717] dark:text-[#fafafa] text-4xl font-bold">kanban</h1>
       </div>
       <div className="flex-1 p-[30px] flex items-center justify-between gap-2">
-        <h2 className="text-[#171717] dark:text-[#fafafa] text-2xl font-bold">Marketing Plan</h2>
+        <h2 className="text-[#171717] dark:text-[#fafafa] text-2xl font-bold">
+          {activeBoard?.name}
+        </h2>
         <div className="flex items-center gap-2">
           <AddNewTaskModal modalTriggerElement={<Button>+ Add new task</Button>} />
           <DropdownMenu>

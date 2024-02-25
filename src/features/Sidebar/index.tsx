@@ -1,26 +1,15 @@
 import { EyeClosedIcon, EyeOpenIcon, GridIcon, MoonIcon, SunIcon } from '@radix-ui/react-icons';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { Button } from 'src/components/ui/button';
 import { Switch } from 'src/components/ui/switch';
 import { CreateNewBoardModal } from 'src/features/Modals';
 import styles from 'src/features/Sidebar/styles.module.css';
+import { useSidebar } from 'src/features/Sidebar/useSidebar';
 import { cn } from 'src/lib/cn';
-import { useTheme } from 'src/providers/ThemeProvider';
 
 const Sidebar: FC = () => {
-  const [isHidden, setIsHidden] = useState<boolean>(false);
-
-  const { theme, setTheme } = useTheme();
-
-  const handleChangeTheme = (checked: boolean): void => {
-    const theme = checked ? 'light' : 'dark';
-
-    setTheme(theme);
-  };
-
-  const handleHideSidebar = (): void => setIsHidden(true);
-
-  const handleShowSidebar = (): void => setIsHidden(false);
+  const { isHidden, theme, boards, handleChangeTheme, handleHideSidebar, handleShowSidebar } =
+    useSidebar();
 
   return (
     <div
@@ -30,17 +19,20 @@ const Sidebar: FC = () => {
       )}
     >
       <div className="text-[#171717] dark:text-[#fafafa]">
-        <div className="font-bold uppercase mb-[22px] pl-[30px]">All boards (0)</div>
-        <div className="flex flex-col gap-2">
-          <div className={styles.boardItem}>
-            <GridIcon className="w-[20px] h-[20px]" />
-            <div className="text-xl font-bold">Roadmap</div>
+        <div className="font-bold uppercase mb-[22px] pl-[30px]">All boards ({boards.length})</div>
+        {boards.map(({ name, id }) => (
+          <div
+            className="flex flex-col gap-2"
+            key={id}
+          >
+            <div className={styles.boardItem}>
+              <GridIcon className="w-[20px] h-[20px]" />
+              <div className="text-xl font-bold whitespace-nowrap text-ellipsis overflow-hidden">
+                {name}
+              </div>
+            </div>
           </div>
-          <div className={styles.boardItem}>
-            <GridIcon className="w-[20px] h-[20px]" />
-            <div className="text-xl font-bold">Marketing plan</div>
-          </div>
-        </div>
+        ))}
       </div>
       <div className="pl-[30px] flex flex-col gap-4">
         <CreateNewBoardModal
