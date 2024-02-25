@@ -1,15 +1,7 @@
-import { Cross1Icon, DotsVerticalIcon } from '@radix-ui/react-icons';
+import { DotsVerticalIcon } from '@radix-ui/react-icons';
 import { FC } from 'react';
 import kanban from 'src/assets/kanban.png';
 import { Button } from 'src/components/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from 'src/components/ui/dialog';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,20 +10,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from 'src/components/ui/dropdown-menu';
-import { Input } from 'src/components/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from 'src/components/ui/select';
-import { Textarea } from 'src/components/ui/textarea';
+import { AddNewTaskModal } from 'src/features/Modals';
 
 const Header: FC = () => {
   return (
-    <div className="flex bg-black border-t-white border-solid border-y-[1px]">
+    <div className="flex border-solid border-y-[1px]">
       <div className="basis-[300px] flex items-center gap-2 p-[30px] border-t-white border-solid border-r-[1px]">
         <div className="p-1 bg-white rounded-md">
           <img
@@ -39,90 +22,24 @@ const Header: FC = () => {
             alt="Logo"
           />
         </div>
-        <h1 className="text-white text-4xl font-bold">kanban</h1>
+        <h1 className="text-[#171717] dark:text-[#fafafa] text-4xl font-bold">kanban</h1>
       </div>
-      <div className="flex-1 p-[30px] flex items-center justify-end gap-2">
-        <Dialog>
-          <DialogTrigger>
-            <Button variant="secondary">+ Add new task</Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Add new task</DialogTitle>
-            </DialogHeader>
-            <DialogDescription className="flex flex-col gap-5">
-              <div className="flex flex-col gap-1">
-                <label
-                  className="text-base"
-                  htmlFor="title"
-                >
-                  Title
-                </label>
-                <Input id="title" />
-              </div>
-              <div className="flex flex-col gap-1">
-                <label
-                  className="text-base"
-                  htmlFor="description"
-                >
-                  Description
-                </label>
-                <Textarea id="description" />
-              </div>
-              <div className="flex flex-col gap-1">
-                <label
-                  className="text-base"
-                  htmlFor="subtask"
-                >
-                  Subtasks
-                </label>
-                <div className="flex items-center gap-2">
-                  <Input
-                    className="flex-1"
-                    id="subtask"
-                  />
-                  <Cross1Icon className="w-[25px] h-[25px] cursor-pointer" />
-                </div>
-                <Button className="mt-4">+ Add new subtask</Button>
-              </div>
-              <div className="flex flex-col gap-1">
-                <label
-                  className="text-base"
-                  htmlFor="status"
-                >
-                  Status
-                </label>
-                <Select>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a status" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectItem value="todo">Todo</SelectItem>
-                      <SelectItem value="doing">Doing</SelectItem>
-                      <SelectItem value="done">Done</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              </div>
-              <Button>Create task</Button>
-            </DialogDescription>
-          </DialogContent>
-        </Dialog>
-        <DropdownMenu>
-          <DropdownMenuTrigger>
-            <DotsVerticalIcon
-              className="w-[25px] h-[25px] cursor-pointer"
-              color="white"
-            />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Edit board</DropdownMenuItem>
-            <DropdownMenuItem className="text-[red]">Delete board</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+      <div className="flex-1 p-[30px] flex items-center justify-between gap-2">
+        <h2 className="text-[#171717] dark:text-[#fafafa] text-2xl font-bold">Marketing Plan</h2>
+        <div className="flex items-center gap-2">
+          <AddNewTaskModal modalTriggerElement={<Button>+ Add new task</Button>} />
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <DotsVerticalIcon className="w-[25px] h-[25px] cursor-pointer transition-colors" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>Edit board</DropdownMenuItem>
+              <DropdownMenuItem className="text-[red]">Delete board</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </div>
     </div>
   );
