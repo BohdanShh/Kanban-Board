@@ -19,13 +19,21 @@ import {
   DropdownMenuTrigger,
 } from 'src/components/ui/dropdown-menu';
 import { Input } from 'src/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from 'src/components/ui/select';
 import { Textarea } from 'src/components/ui/textarea';
 
 const Header: FC = () => {
   return (
     <div className="flex bg-black border-t-white border-solid border-y-[1px]">
       <div className="basis-[300px] flex items-center gap-2 p-[30px] border-t-white border-solid border-r-[1px]">
-        <div className="p-1 bg-white rounded-sm">
+        <div className="p-1 bg-white rounded-md">
           <img
             src={kanban}
             alt="Logo"
@@ -84,7 +92,18 @@ const Header: FC = () => {
                 >
                   Status
                 </label>
-                <Textarea id="status" />
+                <Select>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value="todo">Todo</SelectItem>
+                      <SelectItem value="doing">Doing</SelectItem>
+                      <SelectItem value="done">Done</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
               </div>
               <Button>Create task</Button>
             </DialogDescription>
