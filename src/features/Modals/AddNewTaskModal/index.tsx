@@ -40,7 +40,7 @@ const AddNewTaskModal: FC<ModalProps> = ({ modalTriggerElement }) => {
   } = useAddNewTaskModal();
 
   return (
-    <Dialog modal>
+    <Dialog>
       <DialogTrigger>{modalTriggerElement}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -134,7 +134,12 @@ const AddNewTaskModal: FC<ModalProps> = ({ modalTriggerElement }) => {
             </Select>
           </div>
           <DialogClose>
-            <Button onClick={createTask}>Create task</Button>
+            <Button
+              className="w-full"
+              onClick={createTask}
+            >
+              Create task
+            </Button>
           </DialogClose>
         </DialogDescription>
       </DialogContent>

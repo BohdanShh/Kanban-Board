@@ -1,7 +1,8 @@
 import { DotsVerticalIcon } from '@radix-ui/react-icons';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import kanban from 'src/assets/kanban.png';
 import { Button } from 'src/components/ui/button';
+import { Dialog, DialogContent, DialogTrigger } from 'src/components/ui/dialog';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,14 +11,23 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from 'src/components/ui/dropdown-menu';
-import { AddNewTaskModal } from 'src/features/Modals';
+import { AddNewTaskModal, ConfirmDeletionModal } from 'src/features/Modals';
 import { getActiveBoard } from 'src/lib/getActiveBoard';
 import { useBoard } from 'src/store/useBoard';
+import { DialogVariant } from 'src/types/enums';
 
 const Header: FC = () => {
-  const { boards, activeBoardId } = useBoard();
+  const [dialog, setDialog] = useState<DialogVariant>();
+
+  const { boards, activeBoardId, deleteBoard } = useBoard(state => ({
+    boards: state.boards,
+    activeBoardId: state.activeBoardId,
+    deleteBoard: state.deleteBoard,
+  }));
 
   const activeBoard = getActiveBoard(boards, activeBoardId);
+
+  const handleDeleteBoard = (): void => deleteBoard(activeBoardId);
 
   return (
     <div className="flex border-solid border-y-[1px]">
@@ -32,22 +42,50 @@ const Header: FC = () => {
       </div>
       <div className="flex-1 p-[30px] flex items-center justify-between gap-2">
         <h2 className="text-[#171717] dark:text-[#fafafa] text-2xl font-bold">
-          {activeBoard?.name}
+          {activeBoard?.name || 'No board found'}
         </h2>
-        <div className="flex items-center gap-2">
-          <AddNewTaskModal modalTriggerElement={<Button>+ Add new task</Button>} />
-          <DropdownMenu>
-            <DropdownMenuTrigger>
-              <DotsVerticalIcon className="w-[25px] h-[25px] cursor-pointer transition-colors" />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Edit board</DropdownMenuItem>
-              <DropdownMenuItem className="text-[red]">Delete board</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
+        {!!boards.length && (
+          <div className="flex items-center gap-2">
+            <AddNewTaskModal modalTriggerElement={<Button>+ Add new task</Button>} />
+            <Dialog>
+              <DropdownMenu>
+                <DropdownMenuTrigger>
+                  <DotsVerticalIcon className="w-[25px] h-[25px] cursor-pointer transition-colors" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <div className="flex flex-col gap-2">
+                    <DialogTrigger>
+                      <DropdownMenuItem onClick={() => setDialog(DialogVariant.EDIT)}>
+                        Edit board
+                      </DropdownMenuItem>
+                    </DialogTrigger>
+                    <DialogTrigger>
+                      <DropdownMenuItem
+                        className="text-[red] w-full"
+                        onClick={() => setDialog(DialogVariant.DELETE)}
+                      >
+                        Delete board
+                      </DropdownMenuItem>
+                    </DialogTrigger>
+                  </div>
+                </DropdownMenuContent>
+              </DropdownMenu>
+              <DialogContent>
+                {dialog === DialogVariant.DELETE ? (
+                  <ConfirmDeletionModal
+                    title="Delete this board?"
+                    description={`Are you sure you want to delete the '${activeBoard?.name}' board? This action will remove all columns and tasks and cannot be reversed.`}
+                    onDelete={handleDeleteBoard}
+                  />
+                ) : (
+                  ''
+                )}
+              </DialogContent>
+            </Dialog>
+          </div>
+        )}
       </div>
     </div>
   );

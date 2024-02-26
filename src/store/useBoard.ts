@@ -8,6 +8,9 @@ type BoardStore = {
   boards: Board[];
   activeBoardId: string;
   addNewTask: (activeBoardId: string, task: Task) => void;
+  createNewBoard: (board: Board) => void;
+  setActiveBoardId: (id: string) => void;
+  deleteBoard: (id: string) => void;
 };
 
 export const useBoard = create<BoardStore>()(
@@ -21,6 +24,15 @@ export const useBoard = create<BoardStore>()(
 
         set({ boards: get().boards });
       },
+      createNewBoard: board => {
+        set({ boards: [...get().boards, board], activeBoardId: board.id });
+      },
+      setActiveBoardId: id => set({ activeBoardId: id }),
+      deleteBoard: id =>
+        set({
+          activeBoardId: get().boards[0].id || '',
+          boards: get().boards.filter(board => board.id !== id),
+        }),
     }),
     { name: 'kanban-state' }
   )

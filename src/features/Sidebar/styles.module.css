@@ -1,7 +1,7 @@
 .boardItem {
-  @apply cursor-pointer flex items-center gap-3 pl-[30px] py-2 rounded-tr-[30px] rounded-br-[30px] hover:bg-[#fafafa] transition-[background-color] duration-150;
+  @apply cursor-pointer flex items-center gap-3 pl-[30px] py-2 rounded-tr-[30px] rounded-br-[30px] hover:bg-[#a8a8a8] transition-[background-color] duration-150;
 }
 
 .boardItem:hover > * {
-  @apply text-[#171717];
+  @apply text-[#fafafa] dark:text-[#171717];
 }

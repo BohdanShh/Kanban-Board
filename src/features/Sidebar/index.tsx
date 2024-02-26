@@ -1,6 +1,7 @@
 import { EyeClosedIcon, EyeOpenIcon, GridIcon, MoonIcon, SunIcon } from '@radix-ui/react-icons';
 import { FC } from 'react';
 import { Button } from 'src/components/ui/button';
+import { ScrollArea } from 'src/components/ui/scroll-area';
 import { Switch } from 'src/components/ui/switch';
 import { CreateNewBoardModal } from 'src/features/Modals';
 import styles from 'src/features/Sidebar/styles.module.css';
@@ -8,33 +9,44 @@ import { useSidebar } from 'src/features/Sidebar/useSidebar';
 import { cn } from 'src/lib/cn';
 
 const Sidebar: FC = () => {
-  const { isHidden, theme, boards, handleChangeTheme, handleHideSidebar, handleShowSidebar } =
-    useSidebar();
+  const {
+    isHidden,
+    theme,
+    boards,
+    activeBoardId,
+    setActiveBoardId,
+    handleChangeTheme,
+    handleHideSidebar,
+    handleShowSidebar,
+  } = useSidebar();
 
   return (
     <div
       className={cn(
-        'relative w-[300px] h-full border-t-white border-solid border-r-[1px] p-[30px] pl-0 flex flex-col justify-between transition-[transform] duration-300',
-        isHidden && '-translate-x-full'
+        'relative w-[300px] h-full border-t-white border-solid border-r-[1px] py-[30px] px-0 flex flex-col justify-between transition-[margin] duration-300',
+        isHidden && '-ml-[300px]'
       )}
     >
-      <div className="text-[#171717] dark:text-[#fafafa]">
-        <div className="font-bold uppercase mb-[22px] pl-[30px]">All boards ({boards.length})</div>
+      <div className="font-bold uppercase mb-[22px] pl-[30px]">All boards ({boards.length})</div>
+      <ScrollArea className="flex-1 pr-[30px]">
         {boards.map(({ name, id }) => (
           <div
-            className="flex flex-col gap-2"
+            className={cn(
+              styles.boardItem,
+              id === activeBoardId &&
+                'rounded-tr-[30px] rounded-br-[30px] bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#171717]'
+            )}
             key={id}
+            onClick={() => setActiveBoardId(id)}
           >
-            <div className={styles.boardItem}>
-              <GridIcon className="w-[20px] h-[20px]" />
-              <div className="text-xl font-bold whitespace-nowrap text-ellipsis overflow-hidden">
-                {name}
-              </div>
+            <GridIcon className="w-[20px] h-[20px]" />
+            <div className="text-xl font-bold whitespace-nowrap text-ellipsis overflow-hidden">
+              {name}
             </div>
           </div>
         ))}
-      </div>
-      <div className="pl-[30px] flex flex-col gap-4">
+      </ScrollArea>
+      <div className="px-[30px] flex flex-col gap-4">
         <CreateNewBoardModal
           modalTriggerElement={
             <Button

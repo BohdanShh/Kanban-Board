@@ -3,3 +3,8 @@ export enum Status {
   DOING = 'doing',
   DONE = 'done',
 }
+
+export enum DialogVariant {
+  EDIT = 'edit',
+  DELETE = 'delete',
+}

@@ -6,7 +6,11 @@ export const useSidebar = () => {
   const [isHidden, setIsHidden] = useState<boolean>(false);
 
   const { theme, setTheme } = useTheme();
-  const { boards } = useBoard();
+  const { boards, activeBoardId, setActiveBoardId } = useBoard(state => ({
+    boards: state.boards,
+    activeBoardId: state.activeBoardId,
+    setActiveBoardId: state.setActiveBoardId,
+  }));
 
   const handleChangeTheme = (checked: boolean): void => {
     const theme = checked ? 'light' : 'dark';
@@ -18,5 +22,14 @@ export const useSidebar = () => {
 
   const handleShowSidebar = (): void => setIsHidden(false);
 
-  return { isHidden, theme, boards, handleChangeTheme, handleHideSidebar, handleShowSidebar };
+  return {
+    isHidden,
+    theme,
+    boards,
+    activeBoardId,
+    setActiveBoardId,
+    handleChangeTheme,
+    handleHideSidebar,
+    handleShowSidebar,
+  };
 };
