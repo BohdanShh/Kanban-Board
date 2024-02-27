@@ -14,7 +14,6 @@ import { Input } from 'src/components/ui/input';
 import { ModalProps } from 'src/features/Modals/types';
 import { useBoard } from 'src/store/useBoard';
 import { Board } from 'src/types';
-import { Status } from 'src/types/enums';
 import { v4 as uuidv4 } from 'uuid';
 
 const CreateNewBoardModal: FC<ModalProps> = ({ modalTriggerElement }) => {
@@ -29,8 +28,11 @@ const CreateNewBoardModal: FC<ModalProps> = ({ modalTriggerElement }) => {
   const handleCreateBoard = (): void => {
     const newBoard: Board = {
       name,
-      columns: [Status.TODO, Status.DOING, Status.DONE],
-      tasks: [],
+      columns: [
+        { name: 'Todo', tasks: [], id: uuidv4() },
+        { name: 'Doing', tasks: [], id: uuidv4() },
+        { name: 'Done', tasks: [], id: uuidv4() },
+      ],
       id: uuidv4(),
     };
 
@@ -47,21 +49,25 @@ const CreateNewBoardModal: FC<ModalProps> = ({ modalTriggerElement }) => {
         </DialogHeader>
         <DialogDescription className="flex flex-col gap-5">
           <div className="flex flex-col gap-1">
-            <label
-              className="text-base"
-              htmlFor="name"
-            >
-              Name
-            </label>
+            <div className="flex items-center justify-between">
+              <label
+                className="font-semibold"
+                htmlFor="name"
+              >
+                Name
+              </label>
+              <div>{name.length} / 30</div>
+            </div>
             <Input
               id="name"
+              maxLength={30}
               value={name}
               onChange={handleNameChange}
             />
           </div>
           <div className="flex flex-col gap-1">
             <label
-              className="text-base"
+              className="font-semibold"
               htmlFor="subtask"
             >
               Columns

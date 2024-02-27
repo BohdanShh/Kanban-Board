@@ -37,14 +37,18 @@ const EditBoardModal: FC = () => {
       </DialogHeader>
       <DialogDescription className="flex flex-col gap-5">
         <div className="flex flex-col gap-1">
-          <label
-            className="text-base"
-            htmlFor="name"
-          >
-            Name
-          </label>
+          <div className="flex items-center justify-between">
+            <label
+              className="font-semibold"
+              htmlFor="name"
+            >
+              Name
+            </label>
+            <div>{name.length} / 30</div>
+          </div>
           <Input
             id="name"
+            maxLength={30}
             value={name}
             onChange={handleNameChange}
           />

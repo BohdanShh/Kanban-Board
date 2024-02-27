@@ -1,5 +1,3 @@
-import { Status } from 'src/types/enums';
-
 export type Subtask = {
   title: string;
   completed: boolean;
@@ -9,14 +7,19 @@ export type Subtask = {
 export type Task = {
   title: string;
   description: string;
-  status: Status;
+  status: string;
   subtasks: Subtask[];
+  id: string;
+};
+
+export type Column = {
+  name: string;
+  tasks: Task[];
   id: string;
 };
 
 export type Board = {
   name: string;
-  columns: string[];
-  tasks: Task[];
+  columns: Column[];
   id: string;
 };

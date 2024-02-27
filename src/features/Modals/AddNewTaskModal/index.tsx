@@ -22,7 +22,6 @@ import {
 import { Textarea } from 'src/components/ui/textarea';
 import { useAddNewTaskModal } from 'src/features/Modals/AddNewTaskModal/useAddNewTaskModal';
 import { ModalProps } from 'src/features/Modals/types';
-import { Status } from 'src/types/enums';
 
 const AddNewTaskModal: FC<ModalProps> = ({ modalTriggerElement }) => {
   const {
@@ -36,7 +35,7 @@ const AddNewTaskModal: FC<ModalProps> = ({ modalTriggerElement }) => {
     handleRemoveSubtask,
     handleSubtasksChange,
     handleStatusChange,
-    createTask,
+    handleAddNewTask,
   } = useAddNewTaskModal();
 
   return (
@@ -48,34 +47,42 @@ const AddNewTaskModal: FC<ModalProps> = ({ modalTriggerElement }) => {
         </DialogHeader>
         <DialogDescription className="flex flex-col gap-5">
           <div className="flex flex-col gap-1">
-            <label
-              className="text-base"
-              htmlFor="title"
-            >
-              Title
-            </label>
+            <div className="flex items-center justify-between">
+              <label
+                className="font-semibold"
+                htmlFor="title"
+              >
+                Title
+              </label>
+              <div>{title.length} / 80</div>
+            </div>
             <Input
               id="title"
+              maxLength={80}
               value={title}
               onChange={handleTitleChange}
             />
           </div>
           <div className="flex flex-col gap-1">
-            <label
-              className="text-base"
-              htmlFor="description"
-            >
-              Description
-            </label>
+            <div className="flex items-center justify-between">
+              <label
+                className="font-semibold"
+                htmlFor="description"
+              >
+                Description
+              </label>
+              <div>{description.length} / 200</div>
+            </div>
             <Textarea
               id="description"
+              maxLength={200}
               value={description}
               onChange={handleDescriptionChange}
             />
           </div>
           <div className="flex flex-col gap-1">
             <label
-              className="text-base"
+              className="font-semibold"
               htmlFor="subtask"
             >
               Subtasks
@@ -89,6 +96,7 @@ const AddNewTaskModal: FC<ModalProps> = ({ modalTriggerElement }) => {
                   <Input
                     className="flex-1"
                     id="subtask"
+                    maxLength={50}
                     onChange={event => handleSubtasksChange(event, subtask.id)}
                   />
                   <Button
@@ -113,7 +121,7 @@ const AddNewTaskModal: FC<ModalProps> = ({ modalTriggerElement }) => {
           </div>
           <div className="flex flex-col gap-1">
             <label
-              className="text-base"
+              className="font-semibold"
               htmlFor="status"
             >
               Status
@@ -127,9 +135,9 @@ const AddNewTaskModal: FC<ModalProps> = ({ modalTriggerElement }) => {
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectItem value={Status.TODO}>Todo</SelectItem>
-                  <SelectItem value={Status.DOING}>Doing</SelectItem>
-                  <SelectItem value={Status.DONE}>Done</SelectItem>
+                  <SelectItem value="Todo">Todo</SelectItem>
+                  <SelectItem value="Doing">Doing</SelectItem>
+                  <SelectItem value="Done">Done</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
@@ -137,7 +145,7 @@ const AddNewTaskModal: FC<ModalProps> = ({ modalTriggerElement }) => {
           <DialogClose>
             <Button
               className="w-full"
-              onClick={createTask}
+              onClick={handleAddNewTask}
             >
               Create task
             </Button>

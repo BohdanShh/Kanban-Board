@@ -1,3 +1,4 @@
+import { DialogClose } from '@radix-ui/react-dialog';
 import { Cross1Icon } from '@radix-ui/react-icons';
 import { FC } from 'react';
 import { Button } from 'src/components/ui/button';
@@ -25,11 +26,10 @@ import { useEditTaskModal } from 'src/features/Modals/EditTaskModal/useEditTaskM
 import { ModalProps } from 'src/features/Modals/types';
 import { cn } from 'src/lib/cn';
 import { Task } from 'src/types';
-import { Status } from 'src/types/enums';
 
-type EditTaskModalProps = { task: Task } & ModalProps;
+type EditTaskModalProps = { task: Task; columnId: string } & ModalProps;
 
-const EditTaskModal: FC<EditTaskModalProps> = ({ modalTriggerElement, task }) => {
+const EditTaskModal: FC<EditTaskModalProps> = ({ modalTriggerElement, task, columnId }) => {
   const {
     title,
     description,
@@ -51,31 +51,39 @@ const EditTaskModal: FC<EditTaskModalProps> = ({ modalTriggerElement, task }) =>
       <DialogTrigger>{modalTriggerElement}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{task.title}</DialogTitle>
+          <DialogTitle className="leading-7">{task.title}</DialogTitle>
         </DialogHeader>
         <DialogDescription className="flex flex-col gap-3">
           <div className="flex flex-col gap-2">
-            <label
-              className="font-semibold"
-              htmlFor="title"
-            >
-              Title
-            </label>
+            <div className="flex items-center justify-between">
+              <label
+                className="font-semibold"
+                htmlFor="title"
+              >
+                Title
+              </label>
+              <div>{title.length} / 80</div>
+            </div>
             <Input
               id="title"
+              maxLength={80}
               value={title}
               onChange={handleTitleChange}
             />
           </div>
           <div className="flex flex-col gap-2">
-            <label
-              className="font-semibold"
-              htmlFor="description"
-            >
-              Description
-            </label>
+            <div className="flex items-center justify-between">
+              <label
+                className="font-semibold"
+                htmlFor="description"
+              >
+                Description
+              </label>
+              <div>{description.length} / 200</div>
+            </div>
             <Textarea
               id="description"
+              maxLength={200}
               value={description}
               onChange={handleDescriptionChange}
             />
@@ -96,9 +104,9 @@ const EditTaskModal: FC<EditTaskModalProps> = ({ modalTriggerElement, task }) =>
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectItem value={Status.TODO}>Todo</SelectItem>
-                  <SelectItem value={Status.DOING}>Doing</SelectItem>
-                  <SelectItem value={Status.DONE}>Done</SelectItem>
+                  <SelectItem value="Todo">Todo</SelectItem>
+                  <SelectItem value="Doing">Doing</SelectItem>
+                  <SelectItem value="Done">Done</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
@@ -122,6 +130,7 @@ const EditTaskModal: FC<EditTaskModalProps> = ({ modalTriggerElement, task }) =>
                 <Input
                   className={cn(completed && 'line-through')}
                   id="subtask"
+                  maxLength={50}
                   value={title}
                   onChange={event => handleSubtaskTitleChange(event, id)}
                 />
@@ -157,11 +166,18 @@ const EditTaskModal: FC<EditTaskModalProps> = ({ modalTriggerElement, task }) =>
               <ConfirmDeletionModal
                 title="Delete this task?"
                 description={`Are you sure you want to delete the '${task.title}' task? This action will remove all info and cannot be reversed.`}
-                onDelete={() => deleteTask(task.id)}
+                onDelete={() => deleteTask(task)}
               />
             </DialogContent>
           </Dialog>
-          <Button onClick={handleUpdateTask}>Save changes</Button>
+          <DialogClose>
+            <Button
+              className="w-full"
+              onClick={() => handleUpdateTask(columnId)}
+            >
+              Save changes
+            </Button>
+          </DialogClose>
         </DialogDescription>
       </DialogContent>
     </Dialog>
