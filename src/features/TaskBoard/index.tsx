@@ -2,52 +2,14 @@ import { FC } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
 import ScrollContainer from 'react-indiana-drag-scroll';
 import { Button } from 'src/components/ui/button';
-import styles from 'src/features/Board/styles.module.css';
 import ColumnItem from 'src/features/ColumnItem';
 import { CreateNewBoardModal } from 'src/features/Modals';
+import styles from 'src/features/TaskBoard/styles.module.css';
+import { useTaskBoard } from 'src/features/TaskBoard/useTaskBoard';
 import { cn } from 'src/lib/cn';
-import { getActiveBoard } from 'src/lib/getActiveBoard';
-import { useBoard } from 'src/store/useBoard';
-import { Column } from 'src/types';
 
-const Board: FC = () => {
-  const { boards, activeBoardId, reorderTasks } = useBoard(state => ({
-    boards: state.boards,
-    activeBoardId: state.activeBoardId,
-    reorderTasks: state.reorderTasks,
-  }));
-
-  const activeBoard = getActiveBoard(boards, activeBoardId);
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleDragEnd = (result: any) => {
-    const { destination, source, draggableId } = result;
-
-    if (!destination) return;
-
-    if (destination.droppableId === source.droppableId && destination.index === source.index) {
-      return;
-    }
-
-    const column = activeBoard?.columns.find(({ id }) => id === source.droppableId);
-
-    if (!column) return;
-
-    const newTasks = column.tasks.slice();
-    const draggableTask = newTasks.find(({ id }) => id === draggableId);
-
-    if (!draggableTask) return;
-
-    newTasks.splice(source.index, 1);
-    newTasks.splice(destination.index, 0, draggableTask);
-
-    const newColumn: Column = {
-      ...column,
-      tasks: newTasks,
-    };
-
-    reorderTasks(column.id, newColumn);
-  };
+const TaskBoard: FC = () => {
+  const { boards, activeBoard, handleDragEnd } = useTaskBoard();
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
@@ -90,4 +52,4 @@ const Board: FC = () => {
   );
 };
 
-export default Board;
+export default TaskBoard;

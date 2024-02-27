@@ -10,7 +10,13 @@ type BoardStore = {
   addNewTask: (task: Task) => void;
   updateTask: (columnId: string, taskId: string, updatedTask: Task) => void;
   deleteTask: (task: Task) => void;
-  reorderTasks: (columnId: string, updatedColumn: Column) => void;
+  sortTasksInOneColumn: (columnId: string, updatedColumn: Column) => void;
+  sortTasksBetweenColumns: (
+    sourceColumnId: string,
+    targetColumnId: string,
+    updatedSourceColumn: Column,
+    updatedTargetColumn: Column
+  ) => void;
   createNewBoard: (board: Board) => void;
   setActiveBoardId: (boardId: string) => void;
   deleteActiveBoard: () => void;
@@ -67,20 +73,39 @@ export const useBoard = create<BoardStore>()(
           set({ boards });
         }
       },
-      reorderTasks: (columnId, updatedColumn) => {
+      sortTasksInOneColumn: (columnId, updatedColumn) => {
         const { boards, activeBoardId } = get();
         const activeBoard = getActiveBoard(boards, activeBoardId);
 
         if (activeBoard) {
           const columnIndex = activeBoard.columns.findIndex(({ id }) => id === columnId);
 
-          if (columnIndex !== -1) {
-            activeBoard.columns.splice(columnIndex, 1, updatedColumn);
+          activeBoard.columns.splice(columnIndex, 1, updatedColumn);
 
-            set({
-              boards: boards.map(board => (board.id === activeBoardId ? activeBoard : board)),
-            });
-          }
+          set({ boards });
+        }
+      },
+      sortTasksBetweenColumns: (
+        sourceColumnId,
+        targetColumnId,
+        updatedSourceColumn,
+        updatedTargetColumn
+      ) => {
+        const { boards, activeBoardId } = get();
+        const activeBoard = getActiveBoard(boards, activeBoardId);
+
+        if (activeBoard) {
+          const sourceColumnIndex = activeBoard.columns.findIndex(
+            ({ id }) => id === sourceColumnId
+          );
+          const targetColumnIndex = activeBoard.columns.findIndex(
+            ({ id }) => id === targetColumnId
+          );
+
+          activeBoard.columns[sourceColumnIndex] = updatedSourceColumn;
+          activeBoard.columns[targetColumnIndex] = updatedTargetColumn;
+
+          set({ boards });
         }
       },
       createNewBoard: board => {
