@@ -1,6 +1,6 @@
+import Board from 'src/features/Board';
 import Header from 'src/features/Header';
 import Sidebar from 'src/features/Sidebar';
-import TaskBoard from 'src/features/TaskBoard';
 
 function App() {
   return (
@@ -8,7 +8,7 @@ function App() {
       <Header />
       <div className="flex h-[calc(100%_-_102px)]">
         <Sidebar />
-        <TaskBoard />
+        <Board />
       </div>
     </>
   );

@@ -11,7 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from 'src/components/ui/dropdown-menu';
-import { AddNewTaskModal, ConfirmDeletionModal } from 'src/features/Modals';
+import { AddNewTaskModal, ConfirmDeletionModal, EditBoardModal } from 'src/features/Modals';
 import { getActiveBoard } from 'src/lib/getActiveBoard';
 import { useBoard } from 'src/store/useBoard';
 import { DialogVariant } from 'src/types/enums';
@@ -19,19 +19,19 @@ import { DialogVariant } from 'src/types/enums';
 const Header: FC = () => {
   const [dialog, setDialog] = useState<DialogVariant>();
 
-  const { boards, activeBoardId, deleteBoard } = useBoard(state => ({
+  const { boards, activeBoardId, deleteActiveBoard } = useBoard(state => ({
     boards: state.boards,
     activeBoardId: state.activeBoardId,
-    deleteBoard: state.deleteBoard,
+    deleteActiveBoard: state.deleteActiveBoard,
   }));
 
   const activeBoard = getActiveBoard(boards, activeBoardId);
 
-  const handleDeleteBoard = (): void => deleteBoard(activeBoardId);
+  const handleDeleteActiveBoard = (): void => deleteActiveBoard();
 
   return (
-    <div className="flex border-solid border-y-[1px]">
-      <div className="basis-[300px] flex items-center gap-2 p-[30px] border-t-white border-solid border-r-[1px]">
+    <div className="flex border-solid border-b-[1px]">
+      <div className="basis-[300px] flex items-center gap-2 p-[30px] border-solid border-r-[1px]">
         <div className="p-1 bg-white rounded-md">
           <img
             src={kanban}
@@ -77,10 +77,10 @@ const Header: FC = () => {
                   <ConfirmDeletionModal
                     title="Delete this board?"
                     description={`Are you sure you want to delete the '${activeBoard?.name}' board? This action will remove all columns and tasks and cannot be reversed.`}
-                    onDelete={handleDeleteBoard}
+                    onDelete={handleDeleteActiveBoard}
                   />
                 ) : (
-                  ''
+                  <EditBoardModal />
                 )}
               </DialogContent>
             </Dialog>

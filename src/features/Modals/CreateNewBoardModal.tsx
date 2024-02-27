@@ -73,7 +73,12 @@ const CreateNewBoardModal: FC<ModalProps> = ({ modalTriggerElement }) => {
               />
               <Cross1Icon className="w-[25px] h-[25px] cursor-pointer" />
             </div>
-            <Button className="mt-4">+ Add new column</Button>
+            <Button
+              className="mt-4"
+              variant="outline"
+            >
+              + Add new column
+            </Button>
           </div>
           <DialogClose>
             <Button

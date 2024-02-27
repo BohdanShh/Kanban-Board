@@ -1,0 +1,15 @@
+.scrollContainer::-webkit-scrollbar {
+  @apply h-2 w-1.5;
+}
+
+.scrollContainer::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+.scrollContainer::-webkit-scrollbar-thumb {
+  @apply bg-[#2d2c2c] rounded-md;
+}
+
+.scrollContainer::-webkit-scrollbar-corner {
+  @apply bg-transparent;
+}

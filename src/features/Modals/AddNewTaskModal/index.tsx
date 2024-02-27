@@ -104,6 +104,7 @@ const AddNewTaskModal: FC<ModalProps> = ({ modalTriggerElement }) => {
             {subtasks.length <= 5 && (
               <Button
                 className="mt-4"
+                variant="outline"
                 onClick={handleAddSubtask}
               >
                 + Add new subtask

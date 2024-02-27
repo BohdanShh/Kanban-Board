@@ -1,14 +1,16 @@
 import { FC } from 'react';
 import ScrollContainer from 'react-indiana-drag-scroll';
 import { Button } from 'src/components/ui/button';
+import styles from 'src/features/Board/styles.module.css';
 import { CreateNewBoardModal } from 'src/features/Modals';
+import { EditTaskModal } from 'src/features/Modals';
 import TaskItem from 'src/features/TaskItem';
 import { cn } from 'src/lib/cn';
 import { getActiveBoard } from 'src/lib/getActiveBoard';
 import { useBoard } from 'src/store/useBoard';
 import { Status } from 'src/types/enums';
 
-const TaskBoard: FC = () => {
+const Board: FC = () => {
   const { boards, activeBoardId } = useBoard(state => ({
     boards: state.boards,
     activeBoardId: state.activeBoardId,
@@ -23,9 +25,10 @@ const TaskBoard: FC = () => {
   return (
     <div className="flex-1 overflow-hidden bg-[#f4f7fd] dark:bg-[#18181b]">
       <ScrollContainer
-        className="scroll-container h-full cursor-move"
+        className={cn('scroll-container h-full cursor-move', styles.scrollContainer)}
         vertical
         horizontal
+        hideScrollbars={false}
       >
         {boards.length ? (
           <div className="p-[30px] flex gap-[30px] h-full">
@@ -41,8 +44,9 @@ const TaskBoard: FC = () => {
                 )}
               >
                 {todoTasks?.map(task => (
-                  <TaskItem
+                  <EditTaskModal
                     task={task}
+                    modalTriggerElement={<TaskItem task={task} />}
                     key={task.id}
                   />
                 ))}
@@ -60,8 +64,9 @@ const TaskBoard: FC = () => {
                 )}
               >
                 {doingTasks?.map(task => (
-                  <TaskItem
+                  <EditTaskModal
                     task={task}
+                    modalTriggerElement={<TaskItem task={task} />}
                     key={task.id}
                   />
                 ))}
@@ -79,8 +84,9 @@ const TaskBoard: FC = () => {
                 )}
               >
                 {doneTasks?.map(task => (
-                  <TaskItem
+                  <EditTaskModal
                     task={task}
+                    modalTriggerElement={<TaskItem task={task} />}
                     key={task.id}
                   />
                 ))}
@@ -106,4 +112,4 @@ const TaskBoard: FC = () => {
   );
 };
 
-export default TaskBoard;
+export default Board;

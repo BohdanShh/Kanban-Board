@@ -29,11 +29,11 @@ export const useAddNewTaskModal = () => {
     setSubtasks(prev => [...prev, { title: '', completed: false, id: uuidv4() }]);
   };
 
-  const handleRemoveSubtask =
-    (subtaskId: string): (() => void) =>
-    () => {
+  const handleRemoveSubtask = (subtaskId: string): (() => void) => {
+    return () => {
       setSubtasks(prev => prev.filter(({ id }) => subtaskId !== id));
     };
+  };
 
   const handleSubtasksChange = (event: ChangeEvent<HTMLInputElement>, subtaskId: string): void => {
     setSubtasks(prev => {

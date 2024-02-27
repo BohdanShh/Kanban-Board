@@ -29,22 +29,24 @@ const Sidebar: FC = () => {
     >
       <div className="font-bold uppercase mb-[22px] pl-[30px]">All boards ({boards.length})</div>
       <ScrollArea className="flex-1 pr-[30px]">
-        {boards.map(({ name, id }) => (
-          <div
-            className={cn(
-              styles.boardItem,
-              id === activeBoardId &&
-                'rounded-tr-[30px] rounded-br-[30px] bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#171717]'
-            )}
-            key={id}
-            onClick={() => setActiveBoardId(id)}
-          >
-            <GridIcon className="w-[20px] h-[20px]" />
-            <div className="text-xl font-bold whitespace-nowrap text-ellipsis overflow-hidden">
-              {name}
+        <div className="flex flex-col gap-1">
+          {boards.map(({ name, id }) => (
+            <div
+              className={cn(
+                styles.boardItem,
+                id === activeBoardId &&
+                  'rounded-tr-[30px] rounded-br-[30px] bg-[#171717] text-[#fafafa] dark:bg-[#fafafa] dark:text-[#171717]'
+              )}
+              key={id}
+              onClick={() => setActiveBoardId(id)}
+            >
+              <GridIcon className="w-[20px] h-[20px]" />
+              <div className="text-xl font-bold whitespace-nowrap text-ellipsis overflow-hidden">
+                {name}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </ScrollArea>
       <div className="px-[30px] flex flex-col gap-4">
         <CreateNewBoardModal
