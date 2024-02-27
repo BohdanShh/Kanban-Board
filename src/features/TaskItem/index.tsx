@@ -18,7 +18,7 @@ const TaskItem: FC<TaskItemProps> = ({ task, index }) => {
     >
       {provided => (
         <div
-          className="py-6 px-4 my-3 flex flex-col text-left gap-2 shadow-md rounded-md bg-white dark:bg-[#2c2c30]"
+          className="py-6 px-4 my-3 flex flex-col text-left gap-2 shadow-md rounded-md bg-white dark:bg-[#2c2c30] task-card"
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}

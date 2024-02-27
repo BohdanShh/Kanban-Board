@@ -14,30 +14,30 @@ const TaskBoard: FC = () => {
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
       <ScrollContainer
-        className={cn(
-          'scroll-container h-full cursor-move flex-1 overflow-hidden bg-[#f4f7fd] dark:bg-[#18181b]',
-          styles.scrollContainer
-        )}
-        vertical
-        horizontal
+        className={cn('cursor-move flex-1 bg-[#f4f7fd] dark:bg-[#18181b]', styles.scrollContainer)}
         hideScrollbars={false}
+        nativeMobileScroll={true}
+        ignoreElements=".task-card"
       >
         {boards.length ? (
           <div className="p-[30px] flex gap-[30px] h-full">
-            {activeBoard?.columns.map(({ name, id, tasks }) => (
+            {activeBoard?.columns.map(({ name, id, tasks }, index) => (
               <ColumnItem
                 name={name}
                 tasks={tasks}
                 id={id}
+                index={index}
                 key={id}
               />
             ))}
-            <Button
-              className="w-[280px] flex-shrink-0 flex flex-col items-center justify-center h-full bg-gradient-to-b from-[#dce1e8] dark:from-[#2c2c30] to-transparent font-medium text-3xl hover:no-underline"
-              variant="link"
-            >
-              + New column
-            </Button>
+            {activeBoard && activeBoard.columns.length <= 5 && (
+              <Button
+                className="w-[280px] flex-shrink-0 flex flex-col items-center justify-center h-full bg-gradient-to-b from-[#dce1e8] dark:from-[#2c2c30] to-transparent font-medium text-3xl hover:no-underline"
+                variant="link"
+              >
+                + New column
+              </Button>
+            )}
           </div>
         ) : (
           <div className="h-full flex flex-col items-center justify-center gap-3 overflow-hidden">

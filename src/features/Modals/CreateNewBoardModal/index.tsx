@@ -1,5 +1,5 @@
 import { Cross1Icon } from '@radix-ui/react-icons';
-import { ChangeEvent, FC, useState } from 'react';
+import { FC } from 'react';
 import { Button } from 'src/components/ui/button';
 import {
   Dialog,
@@ -11,34 +11,19 @@ import {
   DialogTrigger,
 } from 'src/components/ui/dialog';
 import { Input } from 'src/components/ui/input';
+import { useCreateNewBoardModal } from 'src/features/Modals/CreateNewBoardModal/useCreateNewBoardModal';
 import { ModalProps } from 'src/features/Modals/types';
-import { useBoard } from 'src/store/useBoard';
-import { Board } from 'src/types';
-import { v4 as uuidv4 } from 'uuid';
 
 const CreateNewBoardModal: FC<ModalProps> = ({ modalTriggerElement }) => {
-  const [name, setName] = useState<string>('');
-
-  const createNewBoard = useBoard(state => state.createNewBoard);
-
-  const handleNameChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    setName(event.target.value);
-  };
-
-  const handleCreateBoard = (): void => {
-    const newBoard: Board = {
-      name,
-      columns: [
-        { name: 'Todo', tasks: [], id: uuidv4() },
-        { name: 'Doing', tasks: [], id: uuidv4() },
-        { name: 'Done', tasks: [], id: uuidv4() },
-      ],
-      id: uuidv4(),
-    };
-
-    createNewBoard(newBoard);
-    setName('');
-  };
+  const {
+    name,
+    columns,
+    handleBoardNameChange,
+    handleAddColumn,
+    handleColumnNameChange,
+    handleDeleteColumn,
+    handleCreateBoard,
+  } = useCreateNewBoardModal();
 
   return (
     <Dialog>
@@ -62,7 +47,7 @@ const CreateNewBoardModal: FC<ModalProps> = ({ modalTriggerElement }) => {
               id="name"
               maxLength={30}
               value={name}
-              onChange={handleNameChange}
+              onChange={handleBoardNameChange}
             />
           </div>
           <div className="flex flex-col gap-1">
@@ -72,19 +57,35 @@ const CreateNewBoardModal: FC<ModalProps> = ({ modalTriggerElement }) => {
             >
               Columns
             </label>
-            <div className="flex items-center gap-2">
-              <Input
-                className="flex-1"
-                id="subtask"
-              />
-              <Cross1Icon className="w-[25px] h-[25px] cursor-pointer" />
-            </div>
-            <Button
-              className="mt-4"
-              variant="outline"
-            >
-              + Add new column
-            </Button>
+            {columns.map(({ name, id }) => (
+              <div
+                className="flex items-center gap-2"
+                key={id}
+              >
+                <Input
+                  className="flex-1"
+                  id="subtask"
+                  value={name}
+                  onChange={event => handleColumnNameChange(event, id)}
+                />
+                <Button
+                  className="p-0 hover:no-underline"
+                  variant="link"
+                  onClick={handleDeleteColumn(id)}
+                >
+                  <Cross1Icon className="w-[25px] h-[25px] cursor-pointer" />
+                </Button>
+              </div>
+            ))}
+            {columns.length <= 5 && (
+              <Button
+                className="mt-4"
+                variant="outline"
+                onClick={handleAddColumn}
+              >
+                + Add new column
+              </Button>
+            )}
           </div>
           <DialogClose>
             <Button

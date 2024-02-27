@@ -1,3 +1,5 @@
+import 'src/styles/color-circles.css';
+
 import { FC } from 'react';
 import { Droppable } from 'react-beautiful-dnd';
 import { EditTaskModal } from 'src/features/Modals';
@@ -8,14 +10,15 @@ import { Task } from 'src/types';
 type ColumnItemProps = {
   name: string;
   tasks: Task[];
+  index: number;
   id: string;
 };
 
-const ColumnItem: FC<ColumnItemProps> = ({ name, tasks, id }) => {
+const ColumnItem: FC<ColumnItemProps> = ({ name, tasks, id, index }) => {
   return (
     <div className="w-[280px] flex-shrink-0 flex flex-col gap-5">
       <div className="flex items-center gap-2">
-        <div className="w-[15px] h-[15px] rounded-full bg-[#49c4e5]" />
+        <div className={cn('w-[15px] h-[15px] rounded-full', `circle-${index}`)} />
         <div className="font-bold">
           {name} ({tasks.length})
         </div>

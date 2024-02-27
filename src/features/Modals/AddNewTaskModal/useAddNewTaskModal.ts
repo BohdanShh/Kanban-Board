@@ -1,4 +1,5 @@
 import { ChangeEvent, useState } from 'react';
+import { getActiveBoard } from 'src/lib/getActiveBoard';
 import { useBoard } from 'src/store/useBoard';
 import { Subtask, Task } from 'src/types';
 import { v4 as uuidv4 } from 'uuid';
@@ -9,9 +10,15 @@ export const useAddNewTaskModal = () => {
   const [subtasks, setSubtasks] = useState<Subtask[]>([
     { title: '', completed: false, id: uuidv4() },
   ]);
-  const [status, setStatus] = useState<string>('Todo');
+  const [status, setStatus] = useState<string>('');
 
-  const addNewTask = useBoard(state => state.addNewTask);
+  const { activeBoardId, boards, addNewTask } = useBoard(state => ({
+    boards: state.boards,
+    activeBoardId: state.activeBoardId,
+    addNewTask: state.addNewTask,
+  }));
+
+  const activeBoard = getActiveBoard(boards, activeBoardId);
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>): void => {
     setTitle(event.target.value);
@@ -26,9 +33,7 @@ export const useAddNewTaskModal = () => {
   };
 
   const handleRemoveSubtask = (subtaskId: string): (() => void) => {
-    return () => {
-      setSubtasks(prev => prev.filter(({ id }) => subtaskId !== id));
-    };
+    return () => setSubtasks(prev => prev.filter(({ id }) => subtaskId !== id));
   };
 
   const handleSubtasksChange = (event: ChangeEvent<HTMLInputElement>, subtaskId: string): void => {
@@ -59,6 +64,7 @@ export const useAddNewTaskModal = () => {
   };
 
   return {
+    activeBoard,
     title,
     description,
     subtasks,

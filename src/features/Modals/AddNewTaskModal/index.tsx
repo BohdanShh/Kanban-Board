@@ -25,6 +25,7 @@ import { ModalProps } from 'src/features/Modals/types';
 
 const AddNewTaskModal: FC<ModalProps> = ({ modalTriggerElement }) => {
   const {
+    activeBoard,
     title,
     description,
     subtasks,
@@ -131,13 +132,18 @@ const AddNewTaskModal: FC<ModalProps> = ({ modalTriggerElement }) => {
               onValueChange={handleStatusChange}
             >
               <SelectTrigger>
-                <SelectValue />
+                <SelectValue placeholder="Select status" />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectItem value="Todo">Todo</SelectItem>
-                  <SelectItem value="Doing">Doing</SelectItem>
-                  <SelectItem value="Done">Done</SelectItem>
+                  {activeBoard?.columns.map(({ name, id }) => (
+                    <SelectItem
+                      value={name}
+                      key={id}
+                    >
+                      {name}
+                    </SelectItem>
+                  ))}
                 </SelectGroup>
               </SelectContent>
             </Select>

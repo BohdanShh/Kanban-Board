@@ -49,6 +49,8 @@ export const useTaskBoard = () => {
     const tasksFromSourceColumn = sourceColumn.tasks.slice();
     const draggableTask = tasksFromSourceColumn.find(({ id }) => id === draggableId);
 
+    if (!draggableTask) return;
+
     tasksFromSourceColumn.splice(source.index, 1);
 
     const updatedSourceColumn: Column = {
@@ -58,8 +60,7 @@ export const useTaskBoard = () => {
 
     const tasksFromTargetColumn = targetColumn.tasks.slice();
 
-    if (!draggableTask) return;
-
+    draggableTask.status = targetColumn.name;
     tasksFromTargetColumn.splice(destination.index, 0, draggableTask);
 
     const updatedTargetColumn: Column = {

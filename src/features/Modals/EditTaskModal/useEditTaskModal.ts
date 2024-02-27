@@ -1,5 +1,6 @@
 import { CheckedState } from '@radix-ui/react-checkbox';
 import { ChangeEvent, useState } from 'react';
+import { getActiveBoard } from 'src/lib/getActiveBoard';
 import { useBoard } from 'src/store/useBoard';
 import { Subtask, Task } from 'src/types';
 import { v4 as uuidv4 } from 'uuid';
@@ -10,10 +11,14 @@ export const useEditTaskModal = (task: Task) => {
   const [status, setStatus] = useState<string>(task.status);
   const [subtasks, setSubtasks] = useState<Subtask[]>(task.subtasks);
 
-  const { deleteTask, updateTask } = useBoard(state => ({
+  const { boards, activeBoardId, deleteTask, updateTask } = useBoard(state => ({
+    boards: state.boards,
+    activeBoardId: state.activeBoardId,
     deleteTask: state.deleteTask,
     updateTask: state.updateTask,
   }));
+
+  const activeBoard = getActiveBoard(boards, activeBoardId);
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>): void => {
     setTitle(event.target.value);
@@ -53,9 +58,7 @@ export const useEditTaskModal = (task: Task) => {
   };
 
   const handleRemoveSubtask = (subtaskId: string): (() => void) => {
-    return () => {
-      setSubtasks(prev => prev.filter(({ id }) => subtaskId !== id));
-    };
+    return () => setSubtasks(prev => prev.filter(({ id }) => subtaskId !== id));
   };
 
   const handleUpdateTask = (columnId: string): void => {
@@ -71,6 +74,7 @@ export const useEditTaskModal = (task: Task) => {
   };
 
   return {
+    activeBoard,
     title,
     description,
     status,

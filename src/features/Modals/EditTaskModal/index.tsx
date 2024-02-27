@@ -31,6 +31,7 @@ type EditTaskModalProps = { task: Task; columnId: string } & ModalProps;
 
 const EditTaskModal: FC<EditTaskModalProps> = ({ modalTriggerElement, task, columnId }) => {
   const {
+    activeBoard,
     title,
     description,
     status,
@@ -104,9 +105,14 @@ const EditTaskModal: FC<EditTaskModalProps> = ({ modalTriggerElement, task, colu
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectItem value="Todo">Todo</SelectItem>
-                  <SelectItem value="Doing">Doing</SelectItem>
-                  <SelectItem value="Done">Done</SelectItem>
+                  {activeBoard?.columns.map(({ name, id }) => (
+                    <SelectItem
+                      value={name}
+                      key={id}
+                    >
+                      {name}
+                    </SelectItem>
+                  ))}
                 </SelectGroup>
               </SelectContent>
             </Select>

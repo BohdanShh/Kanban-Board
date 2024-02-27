@@ -1,0 +1,23 @@
+.circle-0 {
+  @apply bg-[#49c4e5];
+}
+
+.circle-1 {
+  @apply bg-[#67e2ae];
+}
+
+.circle-2 {
+  @apply bg-[#8471f2];
+}
+
+.circle-3 {
+  @apply bg-[#e5a449];
+}
+
+.circle-4 {
+  @apply bg-[#9c3e93];
+}
+
+.circle-5 {
+  @apply bg-[#c36e6e];
+}
