@@ -89,21 +89,22 @@ const AddNewTaskModal: FC<ModalProps> = ({ modalTriggerElement }) => {
               Subtasks
             </label>
             <div className="flex flex-col gap-2">
-              {subtasks.map(subtask => (
+              {subtasks.map(({ title, id }) => (
                 <div
                   className="flex items-center gap-2"
-                  key={subtask.id}
+                  key={id}
                 >
                   <Input
                     className="flex-1"
                     id="subtask"
                     maxLength={50}
-                    onChange={event => handleSubtasksChange(event, subtask.id)}
+                    value={title}
+                    onChange={event => handleSubtasksChange(event, id)}
                   />
                   <Button
                     className="p-0 hover:no-underline"
                     variant="link"
-                    onClick={handleRemoveSubtask(subtask.id)}
+                    onClick={handleRemoveSubtask(id)}
                   >
                     <Cross1Icon className="w-[25px] h-[25px] cursor-pointer" />
                   </Button>
@@ -151,6 +152,7 @@ const AddNewTaskModal: FC<ModalProps> = ({ modalTriggerElement }) => {
           <DialogClose>
             <Button
               className="w-full"
+              disabled={!title.trim().length || !status}
               onClick={handleAddNewTask}
             >
               Create task

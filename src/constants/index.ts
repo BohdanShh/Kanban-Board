@@ -10,7 +10,7 @@ export const DEFAULT_BOARD: Board = {
       tasks: [
         {
           title: 'Build UI for onboarding flow',
-          description: '',
+          description: 'No description',
           id: uuidv4(),
           status: 'Todo',
           subtasks: [
@@ -21,7 +21,7 @@ export const DEFAULT_BOARD: Board = {
         },
         {
           title: 'Build UI for search',
-          description: '',
+          description: 'No description',
           id: uuidv4(),
           status: 'Todo',
           subtasks: [{ title: 'Search page', completed: false, id: uuidv4() }],
@@ -39,7 +39,7 @@ export const DEFAULT_BOARD: Board = {
         },
         {
           title: 'Add account management endpoints',
-          description: '',
+          description: 'No description',
           id: uuidv4(),
           status: 'Todo',
           subtasks: [
@@ -56,7 +56,7 @@ export const DEFAULT_BOARD: Board = {
       tasks: [
         {
           title: 'Design settings and search pages',
-          description: '',
+          description: 'No description',
           id: uuidv4(),
           status: 'Doing',
           subtasks: [
@@ -67,7 +67,7 @@ export const DEFAULT_BOARD: Board = {
         },
         {
           title: 'Design onboarding flow',
-          description: '',
+          description: 'No description',
           id: uuidv4(),
           status: 'Doing',
           subtasks: [
@@ -78,7 +78,7 @@ export const DEFAULT_BOARD: Board = {
         },
         {
           title: 'Add search endpoints',
-          description: '',
+          description: 'No description',
           id: uuidv4(),
           status: 'Doing',
           subtasks: [
@@ -177,7 +177,7 @@ export const DEFAULT_BOARD: Board = {
         },
         {
           title: 'Create paper prototypes and conduct 10 usability tests with potential customers',
-          description: '',
+          description: 'No description',
           id: uuidv4(),
           status: 'Done',
           subtasks: [
@@ -209,7 +209,7 @@ export const DEFAULT_BOARD: Board = {
         },
         {
           title: 'Competitor analysis',
-          description: '',
+          description: 'No description',
           id: uuidv4(),
           status: 'Done',
           subtasks: [

@@ -91,6 +91,7 @@ const CreateNewBoardModal: FC<ModalProps> = ({ modalTriggerElement }) => {
           <DialogClose>
             <Button
               className="w-full"
+              disabled={!name.trim().length || !columns[0]?.name.trim().length}
               onClick={handleCreateBoard}
             >
               Create new board

@@ -28,7 +28,7 @@ const EditBoardModal: FC<EditBoardModalProps> = ({ columnEditMode }) => {
   return (
     <>
       <DialogHeader>
-        <DialogTitle>Edit board</DialogTitle>
+        <DialogTitle>{columnEditMode ? 'Add new column' : 'Edit board'}</DialogTitle>
       </DialogHeader>
       <DialogDescription className="flex flex-col gap-5">
         <div className="flex flex-col gap-2">
@@ -90,6 +90,7 @@ const EditBoardModal: FC<EditBoardModalProps> = ({ columnEditMode }) => {
         <DialogClose>
           <Button
             className="w-full"
+            disabled={!name.trim().length}
             onClick={handleEditBoard}
           >
             Save changes

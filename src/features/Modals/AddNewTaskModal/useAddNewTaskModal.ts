@@ -49,7 +49,7 @@ export const useAddNewTaskModal = () => {
 
   const handleAddNewTask = (): void => {
     const newTask: Task = {
-      title: title || 'Untitled',
+      title: title,
       description: description || 'No description',
       subtasks,
       status,
@@ -60,7 +60,7 @@ export const useAddNewTaskModal = () => {
     setTitle('');
     setDescription('');
     setSubtasks([{ title: '', completed: false, id: uuidv4() }]);
-    setStatus('Todo');
+    setStatus('');
   };
 
   return {

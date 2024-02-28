@@ -115,9 +115,11 @@ export const useBoard = create<BoardStore>()(
       deleteActiveBoard: () => {
         const { boards, activeBoardId } = get();
 
+        const newBoards = boards.filter(board => board.id !== activeBoardId);
+
         set({
-          activeBoardId: boards[0].id || '',
-          boards: boards.filter(board => board.id !== activeBoardId),
+          activeBoardId: newBoards.at(-1)?.id || '',
+          boards: newBoards,
         });
       },
       editActiveBoard: board => {
