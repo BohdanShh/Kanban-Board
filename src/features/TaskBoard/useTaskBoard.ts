@@ -44,36 +44,36 @@ export const useTaskBoard = () => {
       };
 
       sortTasksInOneColumn(sourceColumn.id, newColumn);
+    } else {
+      const tasksFromSourceColumn = sourceColumn.tasks.slice();
+      const draggableTask = tasksFromSourceColumn.find(({ id }) => id === draggableId);
+
+      if (!draggableTask) return;
+
+      tasksFromSourceColumn.splice(source.index, 1);
+
+      const updatedSourceColumn: Column = {
+        ...sourceColumn,
+        tasks: tasksFromSourceColumn,
+      };
+
+      const tasksFromTargetColumn = targetColumn.tasks.slice();
+
+      draggableTask.status = targetColumn.name;
+      tasksFromTargetColumn.splice(destination.index, 0, draggableTask);
+
+      const updatedTargetColumn: Column = {
+        ...targetColumn,
+        tasks: tasksFromTargetColumn,
+      };
+
+      sortTasksBetweenColumns(
+        sourceColumn.id,
+        targetColumn.id,
+        updatedSourceColumn,
+        updatedTargetColumn
+      );
     }
-
-    const tasksFromSourceColumn = sourceColumn.tasks.slice();
-    const draggableTask = tasksFromSourceColumn.find(({ id }) => id === draggableId);
-
-    if (!draggableTask) return;
-
-    tasksFromSourceColumn.splice(source.index, 1);
-
-    const updatedSourceColumn: Column = {
-      ...sourceColumn,
-      tasks: tasksFromSourceColumn,
-    };
-
-    const tasksFromTargetColumn = targetColumn.tasks.slice();
-
-    draggableTask.status = targetColumn.name;
-    tasksFromTargetColumn.splice(destination.index, 0, draggableTask);
-
-    const updatedTargetColumn: Column = {
-      ...targetColumn,
-      tasks: tasksFromTargetColumn,
-    };
-
-    sortTasksBetweenColumns(
-      sourceColumn.id,
-      targetColumn.id,
-      updatedSourceColumn,
-      updatedTargetColumn
-    );
   };
 
   return { boards, activeBoard, handleDragEnd };

@@ -2,8 +2,9 @@ import { FC } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
 import ScrollContainer from 'react-indiana-drag-scroll';
 import { Button } from 'src/components/ui/button';
+import { Dialog, DialogContent, DialogTrigger } from 'src/components/ui/dialog';
 import ColumnItem from 'src/features/ColumnItem';
-import { CreateNewBoardModal } from 'src/features/Modals';
+import { CreateNewBoardModal, EditBoardModal } from 'src/features/Modals';
 import styles from 'src/features/TaskBoard/styles.module.css';
 import { useTaskBoard } from 'src/features/TaskBoard/useTaskBoard';
 import { cn } from 'src/lib/cn';
@@ -31,12 +32,19 @@ const TaskBoard: FC = () => {
               />
             ))}
             {activeBoard && activeBoard.columns.length <= 5 && (
-              <Button
-                className="w-[280px] flex-shrink-0 flex flex-col items-center justify-center h-full bg-gradient-to-b from-[#dce1e8] dark:from-[#2c2c30] to-transparent font-medium text-3xl hover:no-underline"
-                variant="link"
-              >
-                + New column
-              </Button>
+              <Dialog>
+                <DialogTrigger>
+                  <Button
+                    className="w-[280px] flex-shrink-0 flex flex-col items-center justify-center h-full bg-gradient-to-b from-[#dce1e8] dark:from-[#2c2c30] to-transparent font-medium text-3xl hover:no-underline"
+                    variant="link"
+                  >
+                    + New column
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <EditBoardModal columnEditMode />
+                </DialogContent>
+              </Dialog>
             )}
           </div>
         ) : (

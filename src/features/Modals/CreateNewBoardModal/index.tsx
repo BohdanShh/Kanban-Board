@@ -41,11 +41,11 @@ const CreateNewBoardModal: FC<ModalProps> = ({ modalTriggerElement }) => {
               >
                 Name
               </label>
-              <div>{name.length} / 30</div>
+              <div>{name.length} / 20</div>
             </div>
             <Input
               id="name"
-              maxLength={30}
+              maxLength={20}
               value={name}
               onChange={handleBoardNameChange}
             />
@@ -65,6 +65,7 @@ const CreateNewBoardModal: FC<ModalProps> = ({ modalTriggerElement }) => {
                 <Input
                   className="flex-1"
                   id="subtask"
+                  maxLength={20}
                   value={name}
                   onChange={event => handleColumnNameChange(event, id)}
                 />

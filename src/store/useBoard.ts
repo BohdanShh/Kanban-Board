@@ -20,7 +20,7 @@ type BoardStore = {
   createNewBoard: (board: Board) => void;
   setActiveBoardId: (boardId: string) => void;
   deleteActiveBoard: () => void;
-  editActiveBoard: (name: string) => void;
+  editActiveBoard: (board: Board) => void;
 };
 
 export const useBoard = create<BoardStore>()(
@@ -120,17 +120,19 @@ export const useBoard = create<BoardStore>()(
           boards: boards.filter(board => board.id !== activeBoardId),
         });
       },
-      editActiveBoard: (name: string) => {
-        const { boards, activeBoardId } = get();
-        const activeBoard = getActiveBoard(boards, activeBoardId);
+      editActiveBoard: board => {
+        const { boards } = get();
 
-        if (activeBoard) {
-          const editedActiveBoard: Board = { ...activeBoard, name };
+        const newBoardColumns = board.columns.map(column => {
+          return {
+            ...column,
+            tasks: column.tasks.map(task => ({ ...task, status: column.name })),
+          };
+        });
 
-          set({
-            boards: [...boards.filter(({ id }) => id !== activeBoardId), editedActiveBoard],
-          });
-        }
+        board.columns = newBoardColumns;
+
+        set({ boards: [...boards.filter(({ id }) => id !== board.id), board] });
       },
     }),
     { name: 'kanban-state' }

@@ -41,7 +41,7 @@ const Sidebar: FC = () => {
               onClick={() => setActiveBoardId(id)}
             >
               <GridIcon className="w-[20px] h-[20px]" />
-              <div className="text-xl font-bold whitespace-nowrap text-ellipsis overflow-hidden">
+              <div className="font-bold whitespace-nowrap text-ellipsis overflow-hidden">
                 {name}
               </div>
             </div>
