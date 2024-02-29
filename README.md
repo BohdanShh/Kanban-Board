@@ -7,10 +7,12 @@ Kanban Board is a project designed to facilitate task management and collaborati
 ## Features
 
 1. **Task Management:**
+
    - Users can create, edit, and delete tasks/cards within the Kanban board.
    - Tasks are organized into different stages or columns, representing the workflow stages.
 
 2. **Visual Workflow:**
+
    - Utilize the Kanban board's visual layout to easily understand the status of each task.
    - Move cards between stages to reflect the progress of the tasks.
 
@@ -21,15 +23,19 @@ Kanban Board is a project designed to facilitate task management and collaborati
 ## Usage
 
 1. **Create Boards:**
+
    - Start by creating a new board for your project or task.
 
 2. **Add Cards:**
+
    - Populate the board with cards representing individual tasks.
 
 3. **Move Between Columns:**
+
    - Drag and drop cards between different columns to update the task's status.
 
 4. **Customize:**
+
    - Customize the board settings, columns, and statuses to match your workflow.
 
 5. **Theme Options:**

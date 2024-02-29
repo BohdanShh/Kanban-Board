@@ -1,5 +1,5 @@
 import { CheckedState } from '@radix-ui/react-checkbox';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { getActiveBoard } from 'src/lib/getActiveBoard';
 import { useBoard } from 'src/store/useBoard';
 import { Subtask, Task } from 'src/types';
@@ -28,9 +28,7 @@ export const useEditTaskModal = (task: Task) => {
     setDescription(event.target.value);
   };
 
-  const handleStatusChange = (value: string): void => {
-    setStatus(value);
-  };
+  const handleStatusChange = (value: string): void => setStatus(value);
 
   const handleAddSubtask = (): void => {
     setSubtasks(prev => [...prev, { title: '', completed: false, id: uuidv4() }]);
@@ -72,6 +70,10 @@ export const useEditTaskModal = (task: Task) => {
 
     updateTask(columnId, task.id, updatedTask);
   };
+
+  useEffect(() => {
+    setStatus(task.status);
+  }, [task.status]);
 
   return {
     activeBoard,
