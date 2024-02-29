@@ -1,6 +1,5 @@
 import { DotsVerticalIcon } from '@radix-ui/react-icons';
 import { FC, useState } from 'react';
-import kanban from 'src/assets/kanban.png';
 import { Button } from 'src/components/ui/button';
 import { Dialog, DialogContent, DialogTrigger } from 'src/components/ui/dialog';
 import {
@@ -34,7 +33,7 @@ const Header: FC = () => {
       <div className="basis-[300px] flex items-center gap-2 p-[30px] border-solid border-r-[1px]">
         <div className="p-1 bg-white rounded-md">
           <img
-            src={kanban}
+            src="/icon-30x30.png"
             alt="Logo"
           />
         </div>
